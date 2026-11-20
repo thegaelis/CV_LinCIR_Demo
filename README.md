@@ -1,6 +1,26 @@
 # LinCIR × GeneCIS — demo truy hồi ảnh
 
-Ứng dụng Gradio chạy checkpoint LinCIR ViT-L của tác giả trên hai tác vụ GeneCIS **focus_object** và **change_object**. Mỗi truy vấn dùng 1 ảnh tham chiếu, điều kiện gốc và gallery chính thức 15 ảnh (1 target + 14 distractor). Hai tác vụ attribute của GeneCIS cần Visual Genome và không được hỗ trợ trong phiên bản này.
+Ứng dụng Gradio chạy checkpoint LinCIR ViT-L của tác giả trên hai tác vụ GeneCIS **focus_object** và **change_object**. Mỗi truy vấn dùng 1 ảnh tham chiếu, điều kiện gốc và gallery chính thức 15 ảnh (1 target + 14 distractor).
+
+## Hai tác vụ GeneCIS trong demo
+
+Đây là hai tác vụ đánh giá do GeneCIS định nghĩa, không phải nhãn do ứng dụng tự tạo:
+
+- **Focus Object**: condition chọn một đối tượng có trong ảnh tham chiếu làm trọng tâm; tìm ảnh có đối tượng đó và bối cảnh tương tự.
+- **Change Object**: condition chỉ định một đối tượng cần được thêm vào bối cảnh; tìm ảnh có bối cảnh tương tự ảnh tham chiếu nhưng có thêm đối tượng đó. Đây là truy xuất ảnh có sẵn, không phải sinh hoặc chỉnh sửa pixel.
+
+Nguồn: [GeneCIS, CVPR 2023, mục 4 và Hình 2](https://sgvaze.github.io/genecis/resources/paper.pdf). Mỗi tác vụ object có 1.960 truy vấn và 15 ảnh ứng viên cho mỗi truy vấn (Bảng 1 của GeneCIS).
+
+## Nguồn annotation và cách đóng gói
+
+Hai file nén trong `data/annotations` chứa nguyên nội dung JSON của GeneCIS tại commit `0c5c968c01b8ccffcc0990af2b430d21d7a12f49`:
+
+| File trong demo | File gốc GeneCIS | Git blob SHA-1 của nội dung sau giải nén |
+| --- | --- | --- |
+| `focus_object.json.gz` | [genecis/focus_object.json](https://github.com/facebookresearch/genecis/blob/0c5c968c01b8ccffcc0990af2b430d21d7a12f49/genecis/focus_object.json) | `8aa323433948d115beb48d18058208dff586edd0` |
+| `change_object.json.gz` | [genecis/change_object.json](https://github.com/facebookresearch/genecis/blob/0c5c968c01b8ccffcc0990af2b430d21d7a12f49/genecis/change_object.json) | `f06e61063c121f1ec68bea021ab3b08887d517d5` |
+
+Ứng dụng không tự tạo nhãn condition, target hay distractor. Code chỉ đọc annotation, chọn tập con có seed, tải ảnh COCO theo ID và tạo/cache embedding. Đuôi `.gz` là cách đóng gói để giảm dung lượng; không phải bước sinh dữ liệu mới.
 
 ## Chạy trên macOS / Linux
 
