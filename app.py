@@ -123,7 +123,7 @@ def free_query(task,limit,reference,condition,k):
     return result,f'Tìm trong {len(ids)} ảnh nguồn đã chuẩn bị. Đây là gallery chung cho demo, không phải giao thức 15 ảnh của GeneCIS.'
 
 with gr.Blocks(title='LinCIR · GeneCIS',theme=gr.themes.Soft(primary_hue='indigo')) as app:
-    gr.Markdown('# LinCIR × GeneCIS\nDemo zero-shot composed retrieval · **Focus Object** và **Change Object** (COCO validation). Hai tác vụ attribute dùng Visual Genome chưa được hỗ trợ.')
+    gr.Markdown('# LinCIR × GeneCIS\nDemo zero-shot composed retrieval · **Focus Object** và **Change Object** (COCO validation).')
     with gr.Row():
         with gr.Column(scale=1):
             gr.Markdown('### 1 · Cấu hình và chuẩn bị')
